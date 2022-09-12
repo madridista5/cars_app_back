@@ -20,7 +20,7 @@ export class UserRecord implements UserEntity {
             throw new ValidationError('Numer telefonu nie może przekraczać 9 cyfr.');
         }
 
-        if(!obj.address && obj.address.length > 255) {
+        if(!obj.address || obj.address.length > 255) {
             throw new ValidationError('Adres nie może przekraczać 255 znaków.');
         }
 
