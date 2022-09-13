@@ -1,8 +1,8 @@
 export interface UserEntity {
-    id: string,
+    id?: string,
     email: string,
     hashPwd: string,
-    role: string,
+    role?: string,
     phoneNum: number,
     address: string,
     lat: number,

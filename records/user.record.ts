@@ -1,11 +1,13 @@
 import { UserEntity } from "../types";
 import {ValidationError} from "../utils/errors";
+import {v4 as uuid} from 'uuid';
+import {pool} from "../utils/db";
 
 export class UserRecord implements UserEntity {
-    id: string;
+    id?: string;
     email: string;
     hashPwd: string;
-    role: string;
+    role?: string;
     phoneNum: number;
     address: string;
     lat: number;
@@ -36,5 +38,24 @@ export class UserRecord implements UserEntity {
         this.address = obj.address;
         this.lat = obj.lat;
         this.lon = obj.lon;
+    }
+
+    async insert(): Promise<string> {
+        if(!this.id) {
+            this.id = uuid();
+        } else {
+            throw new ValidationError('Ten użytkownik jest już zarejestrowany.');
+        }
+        await pool.execute("INSERT INTO `users` VALUES(:id, :email, :hashPwd, :phoneNum, :address, :lat, :lon)", {
+            id: this.id,
+            email: this.email,
+            hashPwd: this.hashPwd,
+            role: 'USER',
+            phoneNum: this.phoneNum,
+            address: this.address,
+            lat: this.lat,
+            lon: this.lon,
+        });
+        return this.id;
     }
 }
