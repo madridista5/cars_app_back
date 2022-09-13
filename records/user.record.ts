@@ -2,6 +2,9 @@ import { UserEntity } from "../types";
 import {ValidationError} from "../utils/errors";
 import {v4 as uuid} from 'uuid';
 import {pool} from "../utils/db";
+import {FieldPacket} from "mysql2";
+
+type UserRecordResults = [UserRecord[], FieldPacket[]];
 
 export class UserRecord implements UserEntity {
     id?: string;
@@ -58,5 +61,10 @@ export class UserRecord implements UserEntity {
             lon: this.lon,
         });
         return this.id;
+    }
+
+    static async getAllUsers(): Promise<UserRecord[]> {
+        const [results] = await pool.execute("SELECT * FROM `users`") as UserRecordResults;
+        return results.map(user => new UserRecord(user));
     }
 }
