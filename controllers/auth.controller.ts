@@ -33,7 +33,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
 
 export const login = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const user = await UserRecord.getOneUser(req.body.email);
+        const user = await UserRecord.getOneUserByEmail(req.body.email);
         if(!user) {
             throw new ValidationError(`W serwisie nie ma założonego konta dla adresu email: "${req.body.email}"`);
         }
@@ -42,7 +42,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
             throw new ValidationError(`Hasło jest nieprawidłowe.`);
         }
 
-        const token = jwt.sign({id: user.id, isAdmin: user.role}, config.secretKey);
+        const token = jwt.sign({id: user.id, role: user.role, email: user.email}, config.secretKey);
         await user.updateOne(user.id, token);
         const {hashPwd, currentTokenId, ...otherDetails} = user;
 
@@ -54,6 +54,28 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
             })
             .status(200)
             .send({...otherDetails});
+    } catch (err) {
+        next(err);
+    }
+}
+
+export const logout = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        // @ts-ignore
+        const user = await UserRecord.getOneUserByEmail(req.user.email);
+        // @ts-ignore
+        await user.updateOne(req.user.id, null);
+
+
+        res.clearCookie(
+            "access_token",
+            {
+                secure: false,
+                domain: config.domain,
+                httpOnly: true,
+            }
+        );
+        res.send('Użytkownik zostal wylogowany.');
     } catch (err) {
         next(err);
     }

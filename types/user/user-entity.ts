@@ -7,7 +7,7 @@ export interface UserEntity {
     address: string,
     lat: number,
     lon: number,
-    currentTokenId?: string,
+    currentTokenId?: string | null,
 }
 
 export type UserLoginResponse = {

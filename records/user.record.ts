@@ -77,7 +77,7 @@ export class UserRecord implements UserEntity {
         return results.map(user => new UserRecord(user));
     }
 
-    static async getOneUser(email: string): Promise<UserRecord> {
+    static async getOneUserByEmail(email: string): Promise<UserRecord> {
         const [results] = await pool.execute("SELECT * FROM `users` WHERE `email` = :email", {
             email,
         }) as UserRecordResults;
