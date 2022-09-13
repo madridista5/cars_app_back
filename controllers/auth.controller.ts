@@ -28,3 +28,14 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
         next(err);
     }
 }
+
+export const login = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const user = await UserRecord.getOneUser(req.body.email);
+        if(!user) {
+            throw new ValidationError(`W serwisie nie ma założonego konta dla adresu email: "${req.body.email}"`);
+        }
+    } catch (err) {
+        next(err);
+    }
+}
