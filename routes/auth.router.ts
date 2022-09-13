@@ -4,4 +4,4 @@ import {register} from "../controllers/auth.controller";
 export const authRouter = Router();
 
 authRouter
-    .put('/register', register);
+    .post('/register', register);

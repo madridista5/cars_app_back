@@ -43,14 +43,15 @@ export class UserRecord implements UserEntity {
     async insert(): Promise<string> {
         if(!this.id) {
             this.id = uuid();
+            this.role = 'USER';
         } else {
             throw new ValidationError('Ten użytkownik jest już zarejestrowany.');
         }
-        await pool.execute("INSERT INTO `users` VALUES(:id, :email, :hashPwd, :phoneNum, :address, :lat, :lon)", {
+        await pool.execute("INSERT INTO `users` VALUES (:id, :email, :hashPwd, :role, :phoneNum, :address, :lat, :lon)", {
             id: this.id,
             email: this.email,
             hashPwd: this.hashPwd,
-            role: 'USER',
+            role: this.role,
             phoneNum: this.phoneNum,
             address: this.address,
             lat: this.lat,
