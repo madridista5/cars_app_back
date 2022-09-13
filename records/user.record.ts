@@ -15,6 +15,7 @@ export class UserRecord implements UserEntity {
     address: string;
     lat: number;
     lon: number;
+    currentTokenId?: string;
 
     constructor(obj: UserEntity) {
         if(!obj.email || obj.email.length > 255) {
@@ -41,6 +42,7 @@ export class UserRecord implements UserEntity {
         this.address = obj.address;
         this.lat = obj.lat;
         this.lon = obj.lon;
+        this.currentTokenId = obj.currentTokenId;
     }
 
     async insert(): Promise<string> {
@@ -61,6 +63,13 @@ export class UserRecord implements UserEntity {
             lon: this.lon,
         });
         return this.id;
+    }
+
+    async updateOne(id: string, token: string) {
+        await pool.execute("UPDATE `users` SET `currentTokenId` = :token WHERE `id` = :id", {
+            id,
+            token,
+        });
     }
 
     static async getAllUsers(): Promise<UserRecord[]> {

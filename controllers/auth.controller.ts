@@ -2,6 +2,8 @@ import {NextFunction, Request, Response} from "express";
 import {UserRecord} from "../records/user.record";
 import bcrypt from 'bcryptjs';
 import {ValidationError} from "../utils/errors";
+import jwt from 'jsonwebtoken';
+import {config} from "../config/config";
 
 export const register = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -35,6 +37,23 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
         if(!user) {
             throw new ValidationError(`W serwisie nie ma założonego konta dla adresu email: "${req.body.email}"`);
         }
+        const isPassCorrect = await bcrypt.compare(req.body.pwd, user.hashPwd);
+        if(!isPassCorrect) {
+            throw new ValidationError(`Hasło jest nieprawidłowe.`);
+        }
+
+        const token = jwt.sign({id: user.id, isAdmin: user.role}, config.secretKey);
+        await user.updateOne(user.id, token);
+        const {hashPwd, currentTokenId, ...otherDetails} = user;
+
+        res
+            .cookie('access_token', token, {
+                secure: false, // w wersji produkcyjnej (https) ustawiamy true
+                domain: config.domain,
+                httpOnly: true,
+            })
+            .status(200)
+            .send({...otherDetails});
     } catch (err) {
         next(err);
     }

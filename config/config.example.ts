@@ -5,4 +5,6 @@
 //     dbDatabase: 'database',
 //     dbPort: 8889,
 //     corsOrigin: 'http//localhost:3000',
+//     secretKey: '',
+//     domain: '',
 // };
