@@ -49,10 +49,11 @@ export class UserRecord implements UserEntity {
         if(!this.id) {
             this.id = uuid();
             this.role = 'USER';
+            this.currentTokenId = null;
         } else {
             throw new ValidationError('Ten użytkownik jest już zarejestrowany.');
         }
-        await pool.execute("INSERT INTO `users` VALUES (:id, :email, :hashPwd, :role, :phoneNum, :address, :lat, :lon)", {
+        await pool.execute("INSERT INTO `users` VALUES (:id, :email, :hashPwd, :role, :phoneNum, :address, :lat, :lon, :currentTokenId)", {
             id: this.id,
             email: this.email,
             hashPwd: this.hashPwd,
@@ -61,6 +62,7 @@ export class UserRecord implements UserEntity {
             address: this.address,
             lat: this.lat,
             lon: this.lon,
+            currentTokenId: this.currentTokenId,
         });
         return this.id;
     }
