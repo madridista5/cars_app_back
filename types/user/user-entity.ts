@@ -18,4 +18,5 @@ export type UserLoginResponse = {
     address: string,
     lat: number,
     lon: number,
+    info: string,
 }
