@@ -2,7 +2,7 @@ import {CarEntity} from "../types";
 import {ValidationError} from "../utils/errors";
 
 export class CarRecord implements CarEntity {
-    id: string;
+    id?: string;
     bodyStyle: string;
     brand: string;
     model: string;
