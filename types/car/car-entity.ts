@@ -1,5 +1,5 @@
 export interface CarEntity {
-    id: string,
+    id?: string,
     bodyStyle: string,
     brand: string,
     model: string,
