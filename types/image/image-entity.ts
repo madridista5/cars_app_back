@@ -1,5 +1,5 @@
 export interface ImageEntity {
-    id: string,
+    id?: string,
     url: string,
     carId: string,
 }

@@ -2,7 +2,7 @@ import {ImageEntity} from "../types";
 import {ValidationError} from "../utils/errors";
 
 export class ImageRecord implements ImageEntity {
-    id: string;
+    id?: string;
     url: string;
     carId: string;
 
