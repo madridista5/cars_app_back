@@ -1,5 +1,7 @@
 import {CarEntity} from "../types";
 import {ValidationError} from "../utils/errors";
+import {v4 as uuid} from 'uuid';
+import {pool} from "../utils/db";
 
 export class CarRecord implements CarEntity {
     id?: string;
@@ -44,5 +46,23 @@ export class CarRecord implements CarEntity {
         this.distance = obj.distance;
         this.fuelType = obj.fuelType;
         this.userId = obj.userId;
+    }
+
+    async insert(): Promise<string> {
+        if(!this.id) {
+            this.id = uuid();
+        }
+
+        await pool.execute("INSERT INTO `cars` VALUES (:id, :bodyStyle, :brand, :model, :price, :distance, :fuelType, :userId)", {
+            id: this.id,
+            bodyStyle: this.bodyStyle,
+            brand: this.brand,
+            model: this.model,
+            price: this.price,
+            distance: this.distance,
+            fuelType: this.fuelType,
+            userId: this.userId,
+        });
+        return this.id;
     }
 }
