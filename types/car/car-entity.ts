@@ -4,6 +4,7 @@ export interface CarEntity {
     brand: string,
     model: string,
     price: number,
+    year: number,
     distance: number,
     fuelType: string,
     userId: string,

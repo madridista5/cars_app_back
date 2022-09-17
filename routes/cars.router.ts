@@ -1,8 +1,9 @@
 import {Router} from "express";
-import {addCar} from "../controllers/car.controller";
+import {addCar, getSearchCars} from "../controllers/car.controller";
 import {verifyUser} from "../utils/verifyToken";
 
 export const carsRouter = Router();
 
 carsRouter
-    .post('/add/:id', verifyUser, addCar);
+    .post('/add/:id', verifyUser, addCar)
+    .post('/getSearchCars', getSearchCars);
