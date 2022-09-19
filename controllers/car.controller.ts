@@ -1,8 +1,11 @@
 import {NextFunction, Request, Response} from "express";
 import {CarRecord} from "../records/car.record";
+import {UserRecord} from "../records/user.record";
 
 export const addCar = async (req: Request, res: Response, next: NextFunction) => {
     try {
+        const user = await UserRecord.getOneUserById(req.params.id);
+        const cityName = user.address.split(',')[0];
         const newCar = new CarRecord({
             bodyStyle: req.body.bodyStyle,
             brand: req.body.brand,
@@ -12,6 +15,8 @@ export const addCar = async (req: Request, res: Response, next: NextFunction) =>
             distance: req.body.distance,
             fuelType: req.body.fuelType,
             userId: req.params.id,
+            city: cityName,
+            profilePhotoUrl: req.body.profilePhotoUrl,
         });
         await newCar.insert();
         res.status(201).send(`Samochód ${req.body.brand} ${req.body.model} został dodany.`);

@@ -16,6 +16,8 @@ export class CarRecord implements CarEntity {
     distance: number;
     fuelType: string;
     userId: string;
+    city: string;
+    profilePhotoUrl: string;
 
     constructor(obj: CarEntity) {
         if(!obj.bodyStyle || obj.bodyStyle.length > 12) {
@@ -55,6 +57,8 @@ export class CarRecord implements CarEntity {
         this.distance = obj.distance;
         this.fuelType = obj.fuelType;
         this.userId = obj.userId;
+        this.city = obj.city;
+        this.profilePhotoUrl = obj.profilePhotoUrl;
     }
 
     async insert(): Promise<string> {
@@ -62,7 +66,7 @@ export class CarRecord implements CarEntity {
             this.id = uuid();
         }
 
-        await pool.execute("INSERT INTO `cars` VALUES (:id, :bodyStyle, :brand, :model, :price, :year, :distance, :fuelType, :userId)", {
+        await pool.execute("INSERT INTO `cars` VALUES (:id, :bodyStyle, :brand, :model, :price, :year, :distance, :fuelType, :userId, :city, :profilePhotoUrl)", {
             id: this.id,
             bodyStyle: this.bodyStyle,
             brand: this.brand,
@@ -72,6 +76,8 @@ export class CarRecord implements CarEntity {
             distance: this.distance,
             fuelType: this.fuelType,
             userId: this.userId,
+            city: this.city,
+            profilePhotoUrl: this.profilePhotoUrl,
         });
         return this.id;
     }

@@ -8,4 +8,8 @@ export interface CarEntity {
     distance: number,
     fuelType: string,
     userId: string,
+    city: string,
+    profilePhotoUrl: string,
 }
+
+export type CarListResponse = CarEntity[];
