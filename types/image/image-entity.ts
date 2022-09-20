@@ -3,3 +3,5 @@ export interface ImageEntity {
     url: string,
     carId: string,
 }
+
+export type ImageRecordResponse = ImageEntity[];
