@@ -48,6 +48,14 @@ export class CarRecord implements CarEntity {
             throw new ValidationError('Typ paliwa nie może mieć więcej niz 20 znaków');
         }
 
+        if(!obj.city || obj.city.length > 255) {
+            throw new ValidationError('Nazwa miasta nie może mieć więcej niż 255 znaków.');
+        }
+
+        if(!obj.profilePhotoUrl || obj.profilePhotoUrl.length > 255) {
+            throw new ValidationError('Adres URL do zdjęcia nie może mieć więcej niż 255 znaków.');
+        }
+
         this.id = obj.id;
         this.bodyStyle = obj.bodyStyle;
         this.brand = obj.brand;

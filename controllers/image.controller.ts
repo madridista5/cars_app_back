@@ -14,3 +14,12 @@ export const addImage = async (req: Request, res: Response, next: NextFunction) 
         next(err);
     }
 }
+
+export const getImagesByCarId = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const images = await ImageRecord.getImagesByCarId(req.params.carId);
+        res.status(200).send(images);
+    } catch (err) {
+        next(err);
+    }
+}

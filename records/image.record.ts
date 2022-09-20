@@ -2,6 +2,9 @@ import {ImageEntity} from "../types";
 import {ValidationError} from "../utils/errors";
 import {v4 as uuid} from "uuid";
 import {pool} from "../utils/db";
+import {FieldPacket} from "mysql2";
+
+type ImageRecordResults = [ImageRecord[], FieldPacket[]];
 
 export class ImageRecord implements ImageEntity {
     id?: string;
@@ -27,5 +30,12 @@ export class ImageRecord implements ImageEntity {
             carId: this.carId,
         });
         return this.id;
+    }
+
+    static async getImagesByCarId(id: string): Promise<ImageRecord[]> {
+        const [results] = await pool.execute("SELECT * FROM `images` WHERE `carId` = :id", {
+            id,
+        }) as ImageRecordResults;
+        return results.map(image => new ImageRecord(image));
     }
 }
