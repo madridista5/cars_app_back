@@ -105,4 +105,11 @@ export class CarRecord implements CarEntity {
         }) as CarRecordResults;
         return results.map(car => new CarRecord(car));
     }
+
+    static async getOneCarById(id: string): Promise<CarRecord> {
+        const [results] = await pool.execute("SELECT * FROM `cars` WHERE `id` = :id", {
+            id,
+        }) as CarRecordResults;
+        return new CarRecord(results[0]);
+    }
 }

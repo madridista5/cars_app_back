@@ -35,3 +35,12 @@ export const getSearchCars = async (req: Request, res: Response, next: NextFunct
         next(err);
     }
 }
+
+export const getOneCarById = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const car = await CarRecord.getOneCarById(req.params.id);
+        res.status(200).send(car);
+    } catch (err) {
+        next(err);
+    }
+}

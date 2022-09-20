@@ -13,3 +13,4 @@ export interface CarEntity {
 }
 
 export type CarListResponse = CarEntity[];
+export type SingleCarResponse = CarEntity;
