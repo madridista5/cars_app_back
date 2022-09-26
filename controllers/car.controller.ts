@@ -44,3 +44,12 @@ export const getOneCarById = async (req: Request, res: Response, next: NextFunct
         next(err);
     }
 }
+
+export const getUsersCars = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const cars = await CarRecord.getUsersCars(req.params.id);
+        res.status(200).send(cars);
+    } catch (err) {
+        next(err);
+    }
+}
