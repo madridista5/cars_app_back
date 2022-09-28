@@ -36,4 +36,11 @@ export class WatchRecord implements WatchEntity {
         }) as WatchRecordResults;
         return results.map(watch => new WatchRecord(watch));
     }
+
+    static async getAllWatchByUserId(userId: string): Promise<WatchRecord[]> {
+        const [results] = await pool.execute("SELECT * FROM `watch` WHERE `userId` = :userId", {
+            userId,
+        }) as WatchRecordResults;
+        return results.map(watch => new WatchRecord(watch));
+    }
 }

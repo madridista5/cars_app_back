@@ -19,3 +19,12 @@ export const addWatch = async (req: Request, res: Response, next: NextFunction) 
         next(err);
     }
 };
+
+export const getAllWatchByUserId = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const watched = await WatchRecord.getAllWatchByUserId(req.params.id);
+        res.status(200).send(watched);
+    } catch (err) {
+        next(err);
+    }
+}
