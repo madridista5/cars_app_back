@@ -1,6 +1,9 @@
 import {WatchEntity} from "../types";
 import {v4 as uuid} from "uuid";
 import {pool} from "../utils/db";
+import {FieldPacket} from "mysql2";
+
+type WatchRecordResults = [WatchRecord[], FieldPacket[]];
 
 export class WatchRecord implements WatchEntity {
     id?: string;
@@ -24,5 +27,13 @@ export class WatchRecord implements WatchEntity {
             carId: this.carId,
         });
         return this.id;
+    }
+
+    static async getOneWatchByUserIdAndCarId(userId: string, carId: string): Promise<WatchRecord[]> {
+        const [results] = await pool.execute("SELECT * FROM `watch` WHERE `userId` = :userId AND `carId` = :carId", {
+            userId,
+            carId,
+        }) as WatchRecordResults;
+        return results.map(watch => new WatchRecord(watch));
     }
 }
