@@ -5,4 +5,4 @@ import {addWatch} from "../controllers/watch.controller";
 export const watchRouter = Router();
 
 watchRouter
-    .post('/add/:userId', verifyUser, addWatch);
+    .post('/add/:id', verifyUser, addWatch);
