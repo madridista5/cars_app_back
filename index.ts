@@ -9,6 +9,7 @@ import {carsRouter} from "./routes/cars.router";
 import {imagesRouter} from "./routes/images.router";
 import {usersRouter} from "./routes/users.router";
 import {config} from "./config/config";
+import {watchRouter} from "./routes/watch.router";
 
 const app = express();
 dotenv.config();
@@ -24,6 +25,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/cars', carsRouter);
 app.use('/api/images', imagesRouter);
 app.use('/api/users', usersRouter);
+app.use('/api/watch', watchRouter);
 
 app.use(handleError);
 
