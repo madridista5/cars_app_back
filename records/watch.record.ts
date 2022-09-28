@@ -29,12 +29,12 @@ export class WatchRecord implements WatchEntity {
         return this.id;
     }
 
-    static async getOneWatchByUserIdAndCarId(userId: string, carId: string): Promise<WatchRecord[]> {
+    static async getOneWatchByUserIdAndCarId(userId: string, carId: string): Promise<WatchRecord | null> {
         const [results] = await pool.execute("SELECT * FROM `watch` WHERE `userId` = :userId AND `carId` = :carId", {
             userId,
             carId,
         }) as WatchRecordResults;
-        return results.map(watch => new WatchRecord(watch));
+        return results.length > 0 ? new WatchRecord(results[0]) : null;
     }
 
     static async getAllWatchByUserId(userId: string): Promise<WatchRecord[]> {
@@ -42,5 +42,12 @@ export class WatchRecord implements WatchEntity {
             userId,
         }) as WatchRecordResults;
         return results.map(watch => new WatchRecord(watch));
+    }
+
+    async deleteOneWatch(userId: string, carId: string): Promise<void> {
+        await pool.execute("DELETE FROM `watch` WHERE `userId` = :userId AND `carId` = :carId", {
+            userId,
+            carId,
+        });
     }
 }

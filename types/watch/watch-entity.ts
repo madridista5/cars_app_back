@@ -5,3 +5,4 @@ export interface WatchEntity {
 }
 
 export type WatchRecordResponse = WatchEntity[];
+export type SingleWatchRecordResponse = WatchEntity;
