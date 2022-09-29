@@ -119,4 +119,9 @@ export class CarRecord implements CarEntity {
         }) as CarRecordResults;
         return results.map(car => new CarRecord(car));
     }
+
+    static async getAllCars(): Promise<CarRecord[]> {
+        const [results] = await pool.execute("SELECT * FROM `cars`") as CarRecordResults;
+        return results.map(car => new CarRecord(car));
+    }
 }

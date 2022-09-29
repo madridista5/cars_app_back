@@ -53,3 +53,12 @@ export const getUsersCars = async (req: Request, res: Response, next: NextFuncti
         next(err);
     }
 }
+
+export const getAllCars = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const cars = await CarRecord.getAllCars();
+        res.status(200).send(cars);
+    } catch (err) {
+        next(err);
+    }
+}
