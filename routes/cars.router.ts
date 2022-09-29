@@ -1,6 +1,6 @@
 import {Router} from "express";
-import {addCar, getAllCars, getOneCarById, getSearchCars, getUsersCars} from "../controllers/car.controller";
-import {verifyUser} from "../utils/verifyToken";
+import {addCar, deleteOneCar, getAllCars, getOneCarById, getSearchCars, getUsersCars} from "../controllers/car.controller";
+import {verifyAdmin, verifyUser} from "../utils/verifyToken";
 
 export const carsRouter = Router();
 
@@ -9,4 +9,5 @@ carsRouter
     .post('/getSearchCars', getSearchCars)
     .get('/getAllCars', getAllCars)
     .get('/getOneCar/:id', getOneCarById)
-    .get('/getUsersCars/:id', verifyUser, getUsersCars);
+    .get('/getUsersCars/:id', verifyUser, getUsersCars)
+    .delete('/delete/:id/:carId', verifyAdmin, deleteOneCar);

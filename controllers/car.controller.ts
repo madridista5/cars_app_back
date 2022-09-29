@@ -62,3 +62,17 @@ export const getAllCars = async (req: Request, res: Response, next: NextFunction
         next(err);
     }
 }
+
+export const deleteOneCar = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const carToDelete = await CarRecord.getOneCarById(req.params.carId);
+        if(!carToDelete) {
+            res.status(200).send('Nie ma takiego ogłoszenia.');
+            return;
+        }
+        await CarRecord.deleteOneCar(req.params.carId);
+        res.status(200).send(`Ogłoszenie samochodu "${carToDelete.brand} ${carToDelete.model}" zostało usunięte.`);
+    } catch (err) {
+        next(err);
+    }
+}

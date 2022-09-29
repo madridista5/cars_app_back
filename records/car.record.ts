@@ -124,4 +124,10 @@ export class CarRecord implements CarEntity {
         const [results] = await pool.execute("SELECT * FROM `cars`") as CarRecordResults;
         return results.map(car => new CarRecord(car));
     }
+
+    static async deleteOneCar(carId: string): Promise<void> {
+        await pool.execute("DELETE FROM `cars` WHERE id = :carId", {
+            carId,
+        });
+    }
 }
