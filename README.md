@@ -167,6 +167,12 @@ password: <b>admin123</b>
   </ul>
 </details>
 
+<br>
+<p>Database structure:</p>
+<div align="center"> 
+  <img src="https://github.com/madridista5/cars_app_front/blob/main/screenshots/db_cars_app.png" alt="screenshot" />
+</div>
+
 <!-- Env Variables -->
 ### :key: Environment Variables
 
